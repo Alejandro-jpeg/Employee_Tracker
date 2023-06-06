@@ -73,8 +73,7 @@ function userChoice(){
             break;
 
         case 'Exit':
-            //View Roles Function
-            break;
+            process.exit();
     
         default: 'Exit'
             break;
