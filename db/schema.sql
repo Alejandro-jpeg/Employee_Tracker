@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS employee_db;
-CREATE DATABASE employee_db;
+DROP DATABASE IF EXISTS office_db;
+CREATE DATABASE office_db;
 
-USE employee_db;
+USE office_db;
 
 CREATE TABLE department(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -18,19 +18,16 @@ CREATE TABLE roles(
     ON DELETE SET NULL
 );
 
-CREATE TABLE employees(
+CREATE TABLE employee(
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 first_name VARCHAR (30) NOT NULL,
 last_name VARCHAR (30) NOT NULL,
 role_id INT,
 manager_id INT,
-manager_name VARCHAR (45),
+manager_name VARCHAR (45), /*is first_name + last_name WHERE id is manager_id */
 FOREIGN KEY (role_id)
 REFERENCES roles(id) 
 ON DELETE SET NULL
 );
 
-SOURCE seeds.sql
-SELECT * FROM department;
-SELECT * FROM roles; 
-SELECT * FROM employees;
+SOURCE seeds.sql;

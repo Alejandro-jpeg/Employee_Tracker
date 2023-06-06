@@ -13,7 +13,7 @@ VALUES  ("Senior Oracle", 125000, 1),
         ("Senior Developer", 302, 3),
         ("Junior Developer", 150, 3);
 
-INSERT INTO employees(first_name, last_name, role_id, manager_id)
+INSERT INTO employee(first_name, last_name, role_id, manager_id)
 VALUES  ("Lizzzy", "Raidi", 3, null),
         ("Joan", "Archidi", 1, 1),
         ("Elsa", "Holmes", 2, 1),

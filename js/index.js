@@ -8,7 +8,7 @@ const db = mysql.createConnection(
         password: 'Z0mt1Nk_guyckD',
         database: 'employee_db'
     },
-    console.log(`connected to the employee_db database`)
+    console.log(`connected to the office_db database`)
 );
 
 const question = [
@@ -36,15 +36,24 @@ function userChoice(){
         const choice = answer.choice;
     switch (choice) {
         case 'View All Departments':
-            console.log('hiii');
+            db.query('SELECT department_name FROM department', function (err, results) {
+                console.table(results);
+                userChoice();
+              });
             break;
 
         case 'View All Roles':
-            //View Roles Function
+            db.query('SELECT title, salary, department_name FROM roles JOIN department ON department.id = roles.department_id', function (err, results) {
+                console.table(results);
+                userChoice();
+              });
             break;
 
-        case 'View All Employees':
-            //View Roles Function
+        case 'View All Employees'://TODO: MANAGER NAME
+            db.query('SELECT first_name, last_name, title, salary, manager_id FROM office_db.employee JOIN roles ON roles.id = office_db.employee.role_id', function (err, results) {
+                console.table(results);
+                userChoice();
+              });
             break;
 
         case 'Add A Department':
@@ -72,6 +81,5 @@ function userChoice(){
     }
     })
 }
-
 
 module.exports = userChoice;
