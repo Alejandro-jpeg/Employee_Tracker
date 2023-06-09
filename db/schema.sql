@@ -24,7 +24,6 @@ first_name VARCHAR (30) NOT NULL,
 last_name VARCHAR (30) NOT NULL,
 role_id INT,
 manager_id INT,
-manager_name VARCHAR (45), /*is first_name + last_name WHERE id is manager_id */
 FOREIGN KEY (role_id)
 REFERENCES roles(id) 
 ON DELETE SET NULL
