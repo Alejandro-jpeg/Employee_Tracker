@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 let departmentChoices = [];
 let roleChoices = [];
 let managerChoices = [];
+let employeeChoices = [];
 
 const db = mysql.createConnection(
     {
@@ -26,7 +27,7 @@ const question = [
             'Add A Department',
             'Add A Role',
             'Add An Employee',
-            'Update Employee Role',
+            'Update An Employee Role',
             'Exit'
         ]
     }
@@ -36,8 +37,8 @@ function departmentRender(){
     departmentChoices = [];
     db.query('SELECT * FROM department;', (err, results) => {
         for (let i = 0; i < results.length; i++) {
-            roleChoices.push({name:results[i].department_name, value:results[i].id}); 
-        } 
+            departmentChoices.push({name:results[i].department_name, value:results[i].id}); 
+        }
         return departmentChoices;
     })
 }
@@ -62,7 +63,6 @@ inquirer.prompt([
 })
 }
 
-//title, salary, department //TODO:CHOOSE DEPENDING ON THE EXISTING ONES
 function addRole(){
     departmentRender();
     inquirer.prompt([
@@ -86,7 +86,7 @@ function addRole(){
         const roleTitle = answer.roleTitle;
         const roleSalary = answer.roleSalary;
         const roleDepartment = answer.roleDepartment;
-    db.query(`INSERT INTO roles(title, salary, department_id) VALUES ("${roleTitle}", ${roleSalary}, ${roleDepartment});`, (err, results) => {
+    db.query(`INSERT INTO roles(title, salary, department_id) VALUES ("${roleTitle}", ${roleSalary}, "${roleDepartment}");`, (err, results) => {
         if (err) {
             console.log(err);
         }else{
@@ -117,7 +117,7 @@ function roleRender(){
     })
 }
 
-//first name, last name, role, and manager TODO: SELECT THE ROLE FROM EXISTING ONES AND THE MANAGER FIX ERROR
+
 function addEmployee(){
     managerRender();
     roleRender();
@@ -160,6 +160,47 @@ function addEmployee(){
 })
 }
 
+function employeeRender(){
+    employeeChoices = [];
+    db.query('SELECT * FROM employee;', (err, results) => {
+        for (let i = 0; i < results.length; i++) {
+            employeeChoices.push({name:`${results[i].first_name} ${results[i].last_name}`, value:results[i].id}); 
+        } 
+        return employeeChoices;
+    })
+}
+
+function updateEmployee(){
+    employeeRender();
+    roleRender();
+    console.log('hiii');
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'updtEmployee',
+            message: 'Please select an employee to update',
+            choices: employeeChoices
+        },
+        {
+            type: 'list',
+            name: 'updtRole',
+            message: 'Please select the new role for the employee',
+            choices: roleChoices 
+        },
+    ]).then((answer) => {
+        const updatedEmployee = answer.updtEmployee;
+        const updatedRole = answer.updtRole;
+        db.query(`UPDATE employee SET role_id = ${updatedRole} WHERE id = ${updatedEmployee};`, (err, results) => {
+            if(err){
+                console.log(err);
+            }else{
+                console.log('employee updated succesfully');
+                userChoice();
+            }
+        })
+    })
+}
+
 function userChoice(){
     inquirer.prompt(
         question
@@ -200,7 +241,7 @@ function userChoice(){
             break;
 
         case 'Update An Employee Role':
-            //Update Employee Role Function
+            updateEmployee();
             break;
 
         case 'Exit':
