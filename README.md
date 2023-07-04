@@ -26,6 +26,10 @@ Initialize the project by typing node npm start in the console and follow along 
 Here is a demo:
 
 
+https://github.com/Alejandro-jpeg/Employee_Tracker/assets/67748666/ebb266f5-e38a-4651-8e69-ecf762f7c0cd
+
+
+
 
 ## Contribution Guidelines
 
